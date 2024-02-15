@@ -1,0 +1,66 @@
+<h1>Add Trainer</h1>
+<form action="addtrainer" method="post">
+    {% csrf_token %}
+    Name<input type="text" name="name" /><br>
+    Specialization<input type="text" name="spcl" /><br>
+    <button>Add Trainer</button>
+</form>
+<h1>Add Student</h1>
+<form action="addstudent" method="post">
+    {% csrf_token %}
+    Trauner<select name="trainer">
+        {%for t in tr%}
+        <option value={{t.id}}>{{t}}</option>
+        {%endfor%}
+    </select><br>
+    Name<input type="text" name="sname" /><br>
+    Branch<input type="text" name="branch" /><br>
+    <button>Add Student</button>
+</form>
+<h1>Trainers List</h1>
+<table align="center" border="1px">
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Specialization</th>
+</tr>
+{%for i in tr%}
+<tr>
+    <form action="updatetrainer" method="post">
+        {% csrf_token %}
+    <td>{{i.id}}<input type="hidden" name="id" value="{{i.id}}" /></td>
+    <td><input type="text" name="name" value="{{i.tname}}" /></td>
+    <td><input type="text" name="spcl" value="{{i.spcl}}" /></td>
+    <td><button>Update</button></td>
+    </form>
+    <td><a href="deletetrainer?id={{i.id}}">Delete</a></td>
+</tr>
+{% endfor %}
+</table>
+<h1>Students List</h1>
+<table align="center" border="1px">
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Branch</th>
+    <th>Trainer</th>
+</tr>
+{%for i in st%}
+<tr>
+    <form action="updatestudent" method="post">
+    {% csrf_token %}
+    <td>{{i.id}}<input type="hidden" name="id" value="{{i.id}}" /></td>
+    <td><input type="text" name="sname" value="{{i.sname}}" /></td>
+    <td><input type="text" name="branch" value="{{i.branch}}" /></td>
+    <td><select name="trainer">
+        <option value="{{i.trainer.id}}" selected >{{i.trainer}}</option>
+        {%for t in tr%}
+            <option value="{{t.id}}" >{{t}}</option>
+        {%endfor%}
+    </select></td>
+    <td><button>Update</button></td>
+    </form>
+    <td><a href="deletestudent?id={{i.id}}">Delete</a></td>
+</tr>
+{% endfor %}
+</table>
